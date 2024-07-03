@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: parkingcarproject
+server:
+    port: 8088
+    address: 127.0.0.1
+    servlet:
+        context-path: /

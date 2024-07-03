@@ -1,0 +1,160 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'parking.car'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+//기능: 모든 프로젝트에 대해 Maven 중앙 저장소와 JitPack 저장소를 사용할 수 있도록 설정합니다.
+//이유: 모든 프로젝트에 Maven 중앙 저장소와 JitPack 저장소를 추가하여 라이브러리 다운로드를 용이하게 합니다.
+allprojects {
+	repositories {
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
+	}
+}
+
+dependencies {
+	//기능: 기본적인 Spring Boot 기능을 제공한다.
+	//이유: Spring Boot 프로젝트를 쉽게 시작하고 초기 설정을 간편하게 유지할 수 있습니다. 
+	implementation 'org.springframework.boot:spring-boot-starter'
+	
+	//기능: 기본적인 Spring Boot 기능을 제공합니다.
+	//이유: 웹 애플리케이션을 개발하고 실행하기 위해 필요한 Spring MVC, 내장 서버(예: Tomcat, Jetty) 등의 필수적인 구성 요소를 제공합니다.
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	//기능: 테스트 관련 기능을 제공한다.
+	//이유: 단위 테스트부터 통합 테스트까지 다양한 테스트 시나리오를 실행하고 결과를 검증하기 위해 필요합니다.
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	//기능 : JUnit Platform 테스트를 실행하기 위한 런타임 종속성을 제공합니다.
+	//이유 : JUnit 5 플랫폼에서 테스트를 실행하고 관리하기 위해 필요합니다.
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	//기능: JSP와 서블릿을 지원하는 Tomcat 내장 서버를 제공하여 웹 애플리케이션을 쉽게 배포할 수 있도록 합니다.
+	//이유: JSP 파일을 포함한 웹 애플리케이션을 Spring Boot 프로젝트에서 실행하고 테스트할 수 있습니다.
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	//기능: Spring Boot 애플리케이션에 내장된 Tomcat 서버를 시작하기 위한 기본적인 설정과 의존성을 제공합니다.
+	//이유: Spring Boot 애플리케이션을 개발할 때, 내장된 Tomcat 서버를 사용하여 애플리케이션을 실행하고 웹 요청을 처리할 수 있습니다.
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	
+	//기능: Jakarta Servlet API 버전 6.0.0을 런타임 의존성으로 추가합니다.
+	//이유: 서블릿 기반의 Java 웹 애플리케이션을 개발하고 실행하는 데 필요한 서블릿 API를 제공합니다.
+	runtimeOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	
+	//기능: Jakarta Servlet JSP API 버전 3.1.1을 런타임 의존성으로 추가합니다.
+	//이유: Jakarta Servlet JSP API를 사용하여 JavaServer Pages (JSP)를 개발하고 실행하는 데 필요한 라이브러리를 제공합니다.
+	runtimeOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
+	
+	//기능: JSP 표준 태그 라이브러리를 제공합니다.
+	//이유: JSP 페이지에서 사용할 수 있는 표준 태그 라이브러리를 제공하여 웹 애플리케이션 개발을 간소화합니다.
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+	
+	//기능: Jakarta Servlet JSP Standard Tag Library (JSTL)의 구현체인 버전 3.0.1을 추가합니다.
+	//이유: JSP 페이지에서 표준 태그를 사용하여 더욱 효율적으로 웹 애플리케이션을 개발할 수 있습니다.
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+	
+	//기능: Jakarta 어노테이션 기능을 제공한다.
+	//이유: 애플리케이션에서 자바 코드에 주석을 추가하며 추가적인 메타데이터를 지원하는 데 필요한 라이브러리를 제공합니다.
+	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	
+	//기능: 개발 환경에서만 사용할 수 있는 Spring Boot 개발 도구를 추가합니다.
+	//이유: 개발 시에 코드 변경 감지 및 자동 재시작 기능, 라이브 리로드 등을 지원하여 개발자의 생산성을 높이고 애플리케이션 개발 및 테스트를 용이하게 합니다.
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	//기능: Log4j2를 제공합니다.
+	//이유: Log4j2는 강력한 로깅 기능을 제공하여 애플리케이션의 로그를 효과적으로 관리하고 분석할 수 있게 됩니다.
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	
+	//기능: Lombok 라이브러리를 컴파일 시에만 사용하고, 주석 처리 작업을 위해 애노테이션 프로세서를 추가합니다.
+	//이유: Getter, Setter, ToString 등 코드를 자동 생성하기 위해 사용됩니다.
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	
+	//기능: Spring Boot 애플리케이션에서 JDBC 기반의 데이터베이스 접근을 지원하기 위한 기본적인 설정과 의존성을 제공합니다.
+	//이유: 데이터베이스와의 연동을 위해 JDBC를 사용하여 SQL 기반 데이터베이스에 접근하고 데이터를 관리할 수 있게 합니다.
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	
+	//기능: Oracle 데이터베이스에 연결하고 JDK11, JDK17, JDK19, JDK21를 지원합니다.
+	//이유: Oracle 데이터베이스와 Java 애플리케이션 간의 연동을 지원하며, 데이터베이스에서 데이터를 읽거나 쓸 수 있게 합니다.
+	implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
+	
+	//기능: HikariCP 버전 5.1.0을 사용하여 데이터베이스 커넥션 풀을 구성합니다.
+	//이유: 데이터베이스 연결을 관리하기 위해 HikariCP를 사용하여 애플리케이션의 성능과 확장성을 향상시킵니다. HikariCP는 빠르고 가볍고 효율적인 데이터베이스 연결 관리를 지원합니다
+	implementation 'com.zaxxer:HikariCP:5.1.0'
+	
+	//기능: log4jdbc-log4j2 JDBC 드라이버인 버전 1.16을 추가합니다.
+	//이유: 데이터베이스 쿼리 로깅과 디버깅을 위해 log4jdbc-log4j2를 사용하여 JDBC 드라이버를 확장하고, 애플리케이션에서 실행되는 SQL 쿼리를 로그로 기록할 수 있습니다.
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	
+	//기능: Spring Boot 애플리케이션에서 데이터베이스와의 상호작용을 위한 JPA 기반의 데이터 액세스를 지원합니다.
+	//이유: 데이터베이스와의 상호작용을 위한 객체-관계 매핑(ORM) 기술을 Spring Boot 애플리케이션에 통합하여 사용하기 위함입니다.
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	
+	//기능: Hibernate ORM 프레임워크의 핵심 라이브러리인 버전 6.1.5.Final을 프로젝트에 추가합니다.
+	//이유: Hibernate는 객체와 데이터베이스 간의 매핑을 자동화하여 개발자가 간편하게 데이터베이스를 다룰 수 있도록 돕습니다.
+	implementation 'org.hibernate:hibernate-core:6.1.5.Final'
+	
+	//기능: jakarta.inject-api 버전 2.0.1을 추가하여 의존성 주입을 지원합니다.
+    //이유: @Inject 어노테이션을 사용하여 스프링 애플리케이션에서 의존성 주입을 간편하게 구현하기 위해 필요합니다.
+    implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+    
+    //기능: 아임포트 라이브러리
+    //이유: 
+	implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+}
+
+//테스트 태스크를 설정한다.
+tasks.named('test') {
+	//JUnit 플랫폼을 사용하여 테스트를 실행한다.
+	useJUnitPlatform()
+}
+
+configurations {
+  all {
+    //Log4j2 사용을 위해 Spring Boot 기본 로깅 설정을 제외합니다.
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+  }
+}
+
+//기능: Java 프로젝트를 빌드하고 관리하기 위한 기본적인 기능을 제공합니다.
+//이유: Java 소스 코드를 컴파일하고 JAR 파일로 패키징하는 등의 Java 프로젝트 관리 작업을 할 수 있게 합니다. 'java' 플러그인을 적용하면 기본적으로 프로젝트의 소스 경로와 리소스 경로가 설정되며, Java 컴파일 태스크와 관련된 다양한 설정들을 사용할 수 있습니다.
+apply plugin: 'java'
+
+sourceSets {
+	main {
+	//기능: 프로젝트의 주 main 소스셋에서 resources 디렉토리의 특정 하위 디렉토리 및 파일을 제외합니다.
+	//이유: 특정 디렉토리(예: templates 및 static)의 리소스 파일을 빌드 및 배포 프로세스에서 제외하여, 원활한 빌드 및 배포를 지원합니다.
+		resources {
+			exclude 'templates/**'
+			exclude 'static/**'
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+
+	options.encoding = 'UTF-8'
+}
+
+//기능: Java 소스 파일을 UTF-8로 인코딩하여 컴파일합니다.
+//이유: 유니코드 문자를 포함하는 소스 코드를 정확하게 처리하기 위해 필요합니다.
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+	options.compilerArgs << '-parameters'
+}

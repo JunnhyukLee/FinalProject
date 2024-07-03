@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 정보 입력</title>
+    <!-- 포트원 SDK 라이브러리 추가 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script type="text/javascript">
+        var IMP = window.IMP;
+        IMP.init("imp75221483");
+
+        function requestPay(payment_name, payment_total) {
+            IMP.request_pay(
+                {
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    payment_code: new Date().getTime().toString(),
+                    name: payment_name,
+                    amount: payment_total,
+                },
+                function (rsp) {
+                    if (rsp.success) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/payments/save",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                payment_code: rsp.payment_code,
+                                payment_name: payment_name,
+                                payment_total: payment_total
+                            }),
+                            success: function (response) {
+                                alert("결제가 완료되었습니다. 결제 정보: " + JSON.stringify(response));
+                            },
+                            error: function (error) {
+                                alert("결제 정보 저장에 실패했습니다. 에러 내용: " + JSON.stringify(error));
+                            }
+                        });
+                    } else {
+                        alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+    <!-- 종일권 구매 버튼 생성 -->
+    <button onclick="requestPay('종일 주차권', 100)">종일 주차권 구매 (100원)</button>
+    <br><br>
+    <!-- 시간당 주차권 구매 -->
+    <input type="number" id="hourlyQuantity" min="1" max="10" placeholder="선택">
+    <button onclick="requestPay('시간당 주차권', document.getElementById('hourlyQuantity').value * 10)">시간당(10원) 주차권 구매</button>
+</body>
+</html>
