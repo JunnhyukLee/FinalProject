@@ -1,12 +1,12 @@
 package parking.car.project.parking.service;
 
-//import java.io.File;
-//import java.io.IOException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.inject.Inject;
 import parking.car.project.parking.entity.Parking;
@@ -74,24 +74,25 @@ public class ParkingService {
 		return parkingRepository.existsById(parking_code);
 	}
 	
-//	private static final String BASE_DIRECTORY = "./src/main/webapp/Parking/";
-//	
-//	public String fileUpload(MultipartFile file, int member_code) throws IllegalStateException, IOException {
-//		
-//		// 회원 코드번호가 기재된 폴더 생성
-//        File memberDirectory = new File(BASE_DIRECTORY + member_code);
-//        if (!memberDirectory.exists()) {
-//            memberDirectory.mkdirs();
-//        }
-//
-//        // 파일 저장
-//        String filePath = memberDirectory.getAbsolutePath() + File.separator + file.getOriginalFilename();
-//        File dest = new File(filePath);
-//        file.transferTo(dest);
-//
-//        // 저장된 파일의 상대 경로 반환
-//        return "/Parking/" + member_code + "/" + file.getOriginalFilename();
-//		
-//	}
+	// 주차장 이미지 업로드 코드
+	private static final String BASE_DIRECTORY = "./src/main/webapp/resources/Parking/";
+	
+	public String fileUpload(MultipartFile file, int member_code) throws IllegalStateException, IOException {
+		
+		// 회원 코드번호가 기재된 폴더 생성
+        File member_directory = new File(BASE_DIRECTORY + member_code);
+        if (!member_directory.exists()) {
+        	member_directory.mkdirs();
+        }
+
+        // 파일 저장
+        String filePath = member_directory.getAbsolutePath() + File.separator + file.getOriginalFilename();
+        File dest = new File(filePath);
+        file.transferTo(dest);
+
+        // 저장된 파일의 상대 경로 반환
+        return "/Parking/" + member_code + "/" + file.getOriginalFilename();
+		
+	}
 
 }

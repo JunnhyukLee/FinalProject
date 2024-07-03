@@ -77,7 +77,12 @@
 <div>
 추가 요금(10분 경과 시) : ${parkingDTO.parking_hourly_rate}원
 </div>
+<!-- 
+<div>
+주차장 이미지
 
+</div>
+ -->
 <div>
 승인 여부 : 
 <c:choose>

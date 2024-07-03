@@ -41,7 +41,7 @@
 
 <h3>주차장 등록</h3>
 
-<form action="./ParkingInsert" method="post" name="parking_insert" id="insert"> <!--  enctype="multipart/form-data" -->
+<form action="./ParkingInsert" method="post" name="parking_insert" id="insert" enctype="multipart/form-data">
 <fieldset>
 <div>
 <label for="parking_name">주차장 이름 : </label>
@@ -110,7 +110,7 @@
 <input type="text" name="parking_hourly_rate" id="parking_hourly_rate">원<br>
 [참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요. (ex. 10,000 or 15,000 등)
 </div>
-<!-- 파일 업로드 구현 시 추가 예정
+
 <div>
 <label for="parking_photo">주차장 이미지 등록 : </label>
 <input type="file" name="parking_photo" id="parking_photo" accept="image/*" multiple><br>
@@ -122,7 +122,7 @@
 <input type="file" name="parking_document" id="parking_document" accept="image/*" multiple><br>
 [참고] 토지매매서 or 임대계약서를 등록해주세요.
 </div>
- -->
+
 <div>
 <label for="parking_approval"></label>
 <input type="hidden" name="parking_approval" id="parking_approval" value="NAP">
@@ -343,21 +343,21 @@ $(function() {
 			return false;
 		}
 
-//		var parking_photo = document.getElementById('parking_photo').files;
+		var parking_photo = document.getElementById('parking_photo').files;
 		
-//		if(parking_photo.length > 5) {
-//			alert("최대 5장의 주차장 이미지를 선택하세요.");
-//			document.getElementById('parking_photo').focus();
-//			return false;
-//		}
+		if(parking_photo.length > 5) {
+			alert("최대 5장의 주차장 이미지를 선택하세요.");
+			document.getElementById('parking_photo').focus();
+			return false;
+		}
 		
-//		var parking_document = document.getElementById('parking_document').files;
+		var parking_document = document.getElementById('parking_document').files;
 		
-//		if(!parking_document || parking_document.length === 0) {
-//			alert("토지매매서 또는 임대계약서 중 1장을 등록해주세요.");
-//			document.getElementById('parking_document').focus();
-//			return false;
-//		}
+		if(!parking_document || parking_document.length === 0) {
+			alert("토지매매서 또는 임대계약서 중 1장을 등록해주세요.");
+			document.getElementById('parking_document').focus();
+			return false;
+		}
 		
 	});
 });
