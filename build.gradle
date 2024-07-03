@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'war'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    runtimeOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    runtimeOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    
+}
+configurations {
+ all {
+ exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'      
+ }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+eclipse {
+    wtp {
+        facet {
+            facet name: 'jst.web' , version: '6.0'
+            facet name: 'java' , version: '17'
+        }
+    }
+}
+
+apply plugin: 'java'
+
+sourceSets {
+   main {
+   	  resources {
+   	  	 exclude 'templates/**'
+   	  	 exclude 'static/**'
+   	  }
+   }
+}
