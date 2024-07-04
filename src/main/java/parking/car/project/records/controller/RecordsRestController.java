@@ -40,6 +40,20 @@ public class RecordsRestController {
 	@Inject
 	private final MemberService memberService;
 	
+	@GetMapping("/recordsSelectAllParking")
+	public ResponseEntity<List<Parking>> recordsSelectAllParking() {
+		
+		List<Parking> list = parkingService.findAllParking();
+		logger.info("recordsSelectAllParking - {}", list);
+		
+		if (list != null) {
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
 	@GetMapping("/recordsSelectUser/{member_code}")
 	public ResponseEntity<List<Records>> recordsSelectUser(@PathVariable("member_code") Integer member_code) {
 		

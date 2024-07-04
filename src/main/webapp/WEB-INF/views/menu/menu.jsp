@@ -11,13 +11,16 @@
 <div>
 <h1>[최종 버튼]</h1>
 <br><br>
-주차장
-<button onclick="location.href = './ParkingSelectAll?member_code=${10001}'">주차장 관리(manager)</button>
-<button onclick="location.href = './ParkingSelectAdmin'">주차장 및 주차기록 관리(admin)</button>
-<br><br>
 주차기록
 <button onclick="location.href = './RecordsRestUser'">주차 기록 확인(user)</button>
 <button onclick="location.href = './RecordsRestManager'">주차 기록 확인(manager)</button>
+<br><br>
+주차장
+<button onclick="location.href = './ParkingSelectAll?member_code=${10002}'">주차장 관리(manager)</button>
+<br><br>
+admin 주차장 및 주차기록 관리
+<button onclick="location.href = './ParkingSelectAdmin'">주차장 관리(admin)</button>
+<button onclick="location.href = './RecordsRestAdmin'">주차기록 관리(admin)</button>
 </div>
 <br><br>
 

@@ -232,7 +232,7 @@ const RecordsManager = () => {
 				<div>
 					<h1>주차 기록 관리</h1>
 					<Button variant="outline-secondary" onClick={() => setView('parkingList')}>
-						메뉴
+						주차장 목록
 					</Button>
 
 					<Button

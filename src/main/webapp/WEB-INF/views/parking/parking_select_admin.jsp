@@ -40,7 +40,6 @@
 </c:choose></td>
 <td>
 <button onclick="location.href ='./ParkingSelectDetail?parking_code=${list.parking_code}'">상세 정보</button>
-<button onclick="location.href ='./RecordsSelectParking?parking_code=${list.parking_code}&parking_name=${list.parking_name}'">주차 기록 정보</button>
 </td>
 </tr>
 </c:forEach>

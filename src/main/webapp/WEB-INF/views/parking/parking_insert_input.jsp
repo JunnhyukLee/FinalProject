@@ -56,12 +56,12 @@
 
 <div>
 <label for="parking_latitude">주차장 위도 : </label>
-<input type="text" name="parking_latitude" id="parking_latitude">
+<input type="text" name="parking_latitude" id="parking_latitude" readonly>
 </div>
 
 <div>
 <label for="parking_longitude">주차장 경도 : </label>
-<input type="text" name="parking_longitude" id="parking_longitude">
+<input type="text" name="parking_longitude" id="parking_longitude" readonly>
 </div>
 
 <div>
@@ -119,7 +119,7 @@
 
 <div>
 <label for="parking_document">서류 등록 : </label>
-<input type="file" name="parking_document" id="parking_document" accept="image/*" multiple><br>
+<input type="file" name="parking_document" id="parking_document" accept="image/*"><br>
 [참고] 토지매매서 or 임대계약서를 등록해주세요.
 </div>
 

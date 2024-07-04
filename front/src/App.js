@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import RecordsUser from './records/RecordsUser';
+import RecordsAdmin from './records/RecordsAdmin';
 
 function App() {
   return (
     <div className="App">
-      <RecordsUser />
+      <RecordsAdmin />
     </div>
   );
 }

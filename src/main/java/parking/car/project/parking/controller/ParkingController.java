@@ -1,23 +1,28 @@
 package parking.car.project.parking.controller;
 
-//import java.io.ByteArrayOutputStream;
-//import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.inject.Inject;
-//import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import parking.car.project.member.entity.Member;
 import parking.car.project.member.service.MemberService;
 import parking.car.project.parking.dto.ParkingDTO;
@@ -127,7 +132,7 @@ public class ParkingController {
 			@RequestParam("parking_document") MultipartFile parking_document) throws IllegalStateException, IOException {
 
 		// 세션 추가 시 세션으로 member_code 받아서 적용 예정
-		parkingDTO.setMember_code(10001);
+		parkingDTO.setMember_code(10002);
 
 		logger.info("parkingDTO - {}", parkingDTO);
 
@@ -137,37 +142,48 @@ public class ParkingController {
 			MultipartFile parking_photo = parking_photos[i];
 			
 			if (!parking_photo.isEmpty()) {
-				String url = parkingService.fileUpload(parking_photo, parkingDTO.getMember_code());
+				
+				String[] uploadResult = parkingService.fileUpload(parking_photo, parkingDTO.getMember_code());
+				String url = uploadResult[0];
+				String savedFileName = uploadResult[1];
+				
 				switch (i) {
 				case 0:
-					parkingDTO.setParking_photo1_name(parking_photo.getOriginalFilename());
+					parkingDTO.setParking_photo1_name(savedFileName);
 					parkingDTO.setParking_photo1_path(url);
 					break;
 				case 1:
-					parkingDTO.setParking_photo2_name(parking_photo.getOriginalFilename());
+					parkingDTO.setParking_photo2_name(savedFileName);
 					parkingDTO.setParking_photo2_path(url);
 					break;
 				case 2:
-					parkingDTO.setParking_photo3_name(parking_photo.getOriginalFilename());
+					parkingDTO.setParking_photo3_name(savedFileName);
 					parkingDTO.setParking_photo3_path(url);
 					break;
 				case 3:
-					parkingDTO.setParking_photo4_name(parking_photo.getOriginalFilename());
+					parkingDTO.setParking_photo4_name(savedFileName);
 					parkingDTO.setParking_photo4_path(url);
 					break;
 				case 4:
-					parkingDTO.setParking_photo5_name(parking_photo.getOriginalFilename());
+					parkingDTO.setParking_photo5_name(savedFileName);
 					parkingDTO.setParking_photo5_path(url);
 					break;
 				}
+				
 			}
+			
 		}
 
 		// 서류 업로드 처리
 		if (!parking_document.isEmpty()) {
-			String documentUrl = parkingService.fileUpload(parking_document, parkingDTO.getMember_code());
-			parkingDTO.setParking_document_name(parking_document.getOriginalFilename());
+			
+			String[] documentUploadResult = parkingService.fileUpload(parking_document, parkingDTO.getMember_code());
+			String documentUrl = documentUploadResult[0];
+			String documentSavedFileName = documentUploadResult[1];
+			
+			parkingDTO.setParking_document_name(documentSavedFileName);
 			parkingDTO.setParking_document_path(documentUrl);
+			
 		}
 
 		Parking parking = new Parking();
@@ -184,6 +200,7 @@ public class ParkingController {
 		parking.setParking_pay_type(parkingDTO.getParking_pay_type());
 		parking.setParking_base_fee(parkingDTO.getParking_base_fee());
 		parking.setParking_hourly_rate(parkingDTO.getParking_hourly_rate());
+		
 		// 주차장 사진 및 서류 이미지 추가 필요
 		parking.setParking_photo1_name(parkingDTO.getParking_photo1_name());
 		parking.setParking_photo1_path(parkingDTO.getParking_photo1_path());
@@ -236,7 +253,21 @@ public class ParkingController {
 			parkingDTO.setParking_pay_type(parking.getParking_pay_type());
 			parkingDTO.setParking_base_fee(parking.getParking_base_fee());
 			parkingDTO.setParking_hourly_rate(parking.getParking_hourly_rate());
+			
 			// 주차장 사진 및 서류 이미지 추가 필요
+			parkingDTO.setParking_photo1_name(parking.getParking_photo1_name());
+			parkingDTO.setParking_photo1_path(parking.getParking_photo1_path());
+			parkingDTO.setParking_photo2_name(parking.getParking_photo2_name());
+			parkingDTO.setParking_photo2_path(parking.getParking_photo2_path());
+			parkingDTO.setParking_photo3_name(parking.getParking_photo3_name());
+			parkingDTO.setParking_photo3_path(parking.getParking_photo3_path());
+			parkingDTO.setParking_photo4_name(parking.getParking_photo4_name());
+			parkingDTO.setParking_photo4_path(parking.getParking_photo4_path());
+			parkingDTO.setParking_photo5_name(parking.getParking_photo5_name());
+			parkingDTO.setParking_photo5_path(parking.getParking_photo5_path());
+			parkingDTO.setParking_document_name(parking.getParking_document_name());
+			parkingDTO.setParking_document_path(parking.getParking_document_path());
+			
 			parkingDTO.setParking_approval(parking.getParking_approval());
 			parkingDTO.setParking_registration(parking.getParking_registration());
 			parkingDTO.setParking_edit(parkingDTO.getParking_edit());
@@ -251,7 +282,63 @@ public class ParkingController {
 	}
 
 	@PostMapping("/ParkingUpdate") // 주차장 수정 처리
-	public String parkingUpdate(ParkingDTO parkingDTO) {
+	public String parkingUpdate(@ModelAttribute ParkingDTO parkingDTO, 
+			@RequestParam(value = "parking_photo1", required = false) MultipartFile parking_photo1,
+			@RequestParam(value = "parking_photo2", required = false) MultipartFile parking_photo2,
+			@RequestParam(value = "parking_photo3", required = false) MultipartFile parking_photo3,
+			@RequestParam(value = "parking_photo4", required = false) MultipartFile parking_photo4,
+			@RequestParam(value = "parking_photo5", required = false) MultipartFile parking_photo5,
+			@RequestParam(value = "delete_photo1", required = false) String delete_photo1,
+			@RequestParam(value = "delete_photo2", required = false) String delete_photo2,
+			@RequestParam(value = "delete_photo3", required = false) String delete_photo3,
+			@RequestParam(value = "delete_photo4", required = false) String delete_photo4,
+			@RequestParam(value = "delete_photo5", required = false) String delete_photo5) throws IllegalStateException, IOException {
+		
+		// 신규 파일 업로드 및 삭제 여부 체크 후 파일 업로드 or 파일 이름 및 경로 null 처리
+		if (delete_photo1 != null) {
+			parkingDTO.setParking_photo1_name(null);
+			parkingDTO.setParking_photo1_path(null);
+		} else if (parking_photo1 != null && !parking_photo1.isEmpty()) {
+			String[] uploadResult = parkingService.fileUpload(parking_photo1, parkingDTO.getMember_code());
+			parkingDTO.setParking_photo1_name(uploadResult[1]);
+			parkingDTO.setParking_photo1_path(uploadResult[0]);
+		}
+		
+		if (delete_photo2 != null) {
+			parkingDTO.setParking_photo2_name(null);
+			parkingDTO.setParking_photo2_path(null);
+		} else if (parking_photo2 != null && !parking_photo2.isEmpty()) {
+			String[] uploadResult = parkingService.fileUpload(parking_photo2, parkingDTO.getMember_code());
+			parkingDTO.setParking_photo2_name(uploadResult[1]);
+			parkingDTO.setParking_photo2_path(uploadResult[0]);
+		}
+		
+		if (delete_photo3 != null) {
+			parkingDTO.setParking_photo3_name(null);
+			parkingDTO.setParking_photo3_path(null);
+		} else if (parking_photo3 != null && !parking_photo3.isEmpty()) {
+			String[] uploadResult = parkingService.fileUpload(parking_photo3, parkingDTO.getMember_code());
+			parkingDTO.setParking_photo3_name(uploadResult[1]);
+			parkingDTO.setParking_photo3_path(uploadResult[0]);
+		}
+		
+		if (delete_photo4 != null) {
+			parkingDTO.setParking_photo4_name(null);
+			parkingDTO.setParking_photo4_path(null);
+		} else if (parking_photo4 != null && !parking_photo4.isEmpty()) {
+			String[] uploadResult = parkingService.fileUpload(parking_photo4, parkingDTO.getMember_code());
+			parkingDTO.setParking_photo4_name(uploadResult[1]);
+			parkingDTO.setParking_photo4_path(uploadResult[0]);
+		}
+		
+		if (delete_photo5 != null) {
+			parkingDTO.setParking_photo5_name(null);
+			parkingDTO.setParking_photo5_path(null);
+		} else if (parking_photo5 != null && !parking_photo5.isEmpty()) {
+			String[] uploadResult = parkingService.fileUpload(parking_photo5, parkingDTO.getMember_code());
+			parkingDTO.setParking_photo5_name(uploadResult[1]);
+			parkingDTO.setParking_photo5_path(uploadResult[0]);
+		}
 
 		Parking parking = new Parking();
 		parking.setParking_code(parkingDTO.getParking_code());
@@ -267,7 +354,21 @@ public class ParkingController {
 		parking.setParking_pay_type(parkingDTO.getParking_pay_type());
 		parking.setParking_base_fee(parkingDTO.getParking_base_fee());
 		parking.setParking_hourly_rate(parkingDTO.getParking_hourly_rate());
+		
 		// 주차장 사진 및 서류 이미지 추가 필요
+		parking.setParking_photo1_name(parkingDTO.getParking_photo1_name());
+		parking.setParking_photo1_path(parkingDTO.getParking_photo1_path());
+		parking.setParking_photo2_name(parkingDTO.getParking_photo2_name());
+		parking.setParking_photo2_path(parkingDTO.getParking_photo2_path());
+		parking.setParking_photo3_name(parkingDTO.getParking_photo3_name());
+		parking.setParking_photo3_path(parkingDTO.getParking_photo3_path());
+		parking.setParking_photo4_name(parkingDTO.getParking_photo4_name());
+		parking.setParking_photo4_path(parkingDTO.getParking_photo4_path());
+		parking.setParking_photo5_name(parkingDTO.getParking_photo5_name());
+		parking.setParking_photo5_path(parkingDTO.getParking_photo5_path());
+		parking.setParking_document_name(parkingDTO.getParking_document_name());
+		parking.setParking_document_path(parkingDTO.getParking_document_path());
+		
 		parking.setParking_approval(parkingDTO.getParking_approval());
 		parking.setParking_registration(parkingDTO.getParking_registration());
 		parking.setParking_edit(parkingDTO.getParking_edit());
@@ -301,7 +402,21 @@ public class ParkingController {
 			parkingDTO.setParking_pay_type(parking.getParking_pay_type());
 			parkingDTO.setParking_base_fee(parking.getParking_base_fee());
 			parkingDTO.setParking_hourly_rate(parking.getParking_hourly_rate());
+			
 			// 주차장 사진 및 서류 이미지 추가 필요
+			parkingDTO.setParking_photo1_name(parking.getParking_photo1_name());
+			parkingDTO.setParking_photo1_path(parking.getParking_photo1_path());
+			parkingDTO.setParking_photo2_name(parking.getParking_photo2_name());
+			parkingDTO.setParking_photo2_path(parking.getParking_photo2_path());
+			parkingDTO.setParking_photo3_name(parking.getParking_photo3_name());
+			parkingDTO.setParking_photo3_path(parking.getParking_photo3_path());
+			parkingDTO.setParking_photo4_name(parking.getParking_photo4_name());
+			parkingDTO.setParking_photo4_path(parking.getParking_photo4_path());
+			parkingDTO.setParking_photo5_name(parking.getParking_photo5_name());
+			parkingDTO.setParking_photo5_path(parking.getParking_photo5_path());
+			parkingDTO.setParking_document_name(parking.getParking_document_name());
+			parkingDTO.setParking_document_path(parking.getParking_document_path());
+			
 			parkingDTO.setParking_approval(parking.getParking_approval());
 			parkingDTO.setParking_registration(parking.getParking_registration());
 			parkingDTO.setParking_edit(parkingDTO.getParking_edit());
@@ -351,6 +466,19 @@ public class ParkingController {
 			parkingDTO.setParking_base_fee(parking.getParking_base_fee());
 			parkingDTO.setParking_hourly_rate(parking.getParking_hourly_rate());
 			// 주차장 사진 및 서류 이미지 추가 필요
+			parkingDTO.setParking_photo1_name(parking.getParking_photo1_name());
+			parkingDTO.setParking_photo1_path(parking.getParking_photo1_path());
+			parkingDTO.setParking_photo2_name(parking.getParking_photo2_name());
+			parkingDTO.setParking_photo2_path(parking.getParking_photo2_path());
+			parkingDTO.setParking_photo3_name(parking.getParking_photo3_name());
+			parkingDTO.setParking_photo3_path(parking.getParking_photo3_path());
+			parkingDTO.setParking_photo4_name(parking.getParking_photo4_name());
+			parkingDTO.setParking_photo4_path(parking.getParking_photo4_path());
+			parkingDTO.setParking_photo5_name(parking.getParking_photo5_name());
+			parkingDTO.setParking_photo5_path(parking.getParking_photo5_path());
+			parkingDTO.setParking_document_name(parking.getParking_document_name());
+			parkingDTO.setParking_document_path(parking.getParking_document_path());
+			
 			parkingDTO.setParking_approval(parking.getParking_approval());
 			parkingDTO.setParking_registration(parking.getParking_registration());
 			parkingDTO.setParking_edit(parkingDTO.getParking_edit());
@@ -382,6 +510,19 @@ public class ParkingController {
 		parking.setParking_base_fee(parkingDTO.getParking_base_fee());
 		parking.setParking_hourly_rate(parkingDTO.getParking_hourly_rate());
 		// 주차장 사진 및 서류 이미지 추가 필요
+		parking.setParking_photo1_name(parkingDTO.getParking_photo1_name());
+		parking.setParking_photo1_path(parkingDTO.getParking_photo1_path());
+		parking.setParking_photo2_name(parkingDTO.getParking_photo2_name());
+		parking.setParking_photo2_path(parkingDTO.getParking_photo2_path());
+		parking.setParking_photo3_name(parkingDTO.getParking_photo3_name());
+		parking.setParking_photo3_path(parkingDTO.getParking_photo3_path());
+		parking.setParking_photo4_name(parkingDTO.getParking_photo4_name());
+		parking.setParking_photo4_path(parkingDTO.getParking_photo4_path());
+		parking.setParking_photo5_name(parkingDTO.getParking_photo5_name());
+		parking.setParking_photo5_path(parkingDTO.getParking_photo5_path());
+		parking.setParking_document_name(parkingDTO.getParking_document_name());
+		parking.setParking_document_path(parkingDTO.getParking_document_path());
+		
 		parking.setParking_approval(parkingDTO.getParking_approval());
 		parking.setParking_registration(parkingDTO.getParking_registration());
 		parking.setParking_edit(parkingDTO.getParking_edit());
@@ -394,29 +535,31 @@ public class ParkingController {
 		return "./parking/parking_approve";
 	}
 	
-//	@Inject
-//	private ServletContext servletContext;
-//	
-//	@GetMapping("/thumbnail")
-//    public ResponseEntity<byte[]> generateThumbnail(@RequestParam("path") String imagePath) throws IOException {
-//        String realPath = servletContext.getRealPath(imagePath);
-//        File imageFile = new File(realPath);
-//
-//        if (!imageFile.exists()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        Thumbnails.of(imageFile)
-//                  .size(200, 200) // 썸네일 크기 설정
-//                  .toOutputStream(outputStream);
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_JPEG)
-//                .header(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
-//                .header(HttpHeaders.PRAGMA, "no-cache")
-//                .header(HttpHeaders.EXPIRES, "0")
-//                .body(outputStream.toByteArray());
-//    }
+	// 썸네일 동적 생성 코드 따로 DB에 저장하지 않고 요청시에 만들어서 뷰에 보여줌
+	private static final String BASE_DIRECTORY = "./src/main/webapp/resources/Parking/";
+
+    @GetMapping("/parkingThumbnail")
+    @ResponseBody
+    public ResponseEntity<Resource> getThumbnail(@RequestParam("member_code") int member_code,
+                                                 @RequestParam("filename") String filename) throws IOException {
+        File imageFile = new File(BASE_DIRECTORY + member_code + File.separator + filename);
+        if (!imageFile.exists()) {
+            throw new IOException("File not found: " + filename);
+        }
+
+        // 썸네일 생성
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Thumbnails.of(imageFile)
+                .size(200, 200) // 썸네일 크기 지정
+                .toOutputStream(byteArrayOutputStream);
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        InputStreamResource inputStreamResource = new InputStreamResource(byteArrayInputStream);
+
+        // 썸네일을 Resource로 반환
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"thumb_" + filename + "\"")
+                .body(inputStreamResource);
+    }
 
 }

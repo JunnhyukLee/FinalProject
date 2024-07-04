@@ -9,6 +9,6 @@
 <body>
 <div id="root"></div>
 <script src="./react/records/manager/js/453.80efc53e.chunk.js"></script>
-<script src="./react/records/manager/js/main.8fde50b4.js"></script>
+<script src="./react/records/manager/js/main.3b1a58e1.js"></script>
 </body>
 </html>

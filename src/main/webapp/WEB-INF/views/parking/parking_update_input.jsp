@@ -7,28 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>주차장 정보 수정(input)</title>
-<script src="./js/jquery-3.5.1.min.js?20240624" type="text/javascript"></script>
-
-<script>
-        function initAutocomplete() {
-            var input = document.getElementById('parking_address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.setFields(['geometry', 'name']);
-            
-            autocomplete.addListener('place_changed', function() {
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    window.alert("No details available for input: '" + place.name + "'");
-                    return;
-                }
-
-                document.getElementById('parking_latitude').value = place.geometry.location.lat();
-                document.getElementById('parking_longitude').value = place.geometry.location.lng();
-            });
-        }
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA908IhDu2ndM4yxWsoFmwxuQdktW90N3E&libraries=places&callback=initAutocomplete" defer></script>
+<link rel="stylesheet" href="./css/bootstrap.min_4.5.0.css?20240704">
+<script src="./js/jquery-3.5.1.min.js?20240704"></script>
+<script src="./js/popper.min.js?20240704"></script>
+<script src="./js/bootstrap.min_4.5.0.js?20240704"></script>
 
 </head>
 <body>
@@ -41,54 +23,55 @@
 
 <h3>주차장 정보 수정</h3>
 
-<form action="./ParkingUpdate" method="post" name="parking_update" id="update">
+<form action="./ParkingUpdate" method="post" name="parking_update" id="update" enctype="multipart/form-data">
 <fieldset>
 
 <div>
-<label for="parking_code">주차장 코드 : </label>
+<label for="parking_code">주차장 코드 : </label> 
 <input type="text" name="parking_code" id="parking_code" value="${parkingDTO.parking_code}" readonly>
 </div>
 
 <div>
-<label for="parking_name">주차장 이름 : </label>
-<input type="text" name="parking_name" id="parking_name" value="${parkingDTO.parking_name}">
+<label for="parking_name">주차장 이름 : 
+</label> <input type="text" name="parking_name" id="parking_name" value="${parkingDTO.parking_name}">
 </div>
 
 <div>
-<label for="parking_address">주차장 주소 : </label>
-<input type="text" name="parking_address" id="parking_address" value="${parkingDTO.parking_address}">
-<br>[참고] 도로명 주소로 기재해주세요.
+<label for="parking_address">주차장 주소 : </label> 
+<input type="text" name="parking_address" id="parking_address" value="${parkingDTO.parking_address}" readonly>
 </div>
 
 <div>
-<label for="parking_latitude">주차장 위도 : </label>
-<input type="text" name="parking_latitude" id="parking_latitude" value="${parkingDTO.parking_latitude}">
+<label for="parking_latitude">주차장 위도 : </label> 
+<input type="text" name="parking_latitude" id="parking_latitude" value="${parkingDTO.parking_latitude}" readonly>
 </div>
 
 <div>
-<label for="parking_longitude">주차장 경도 : </label>
-<input type="text" name="parking_longitude" id="parking_longitude" value="${parkingDTO.parking_longitude}">
+<label for="parking_longitude">주차장 경도 : </label> 
+<input type="text" name="parking_longitude" id="parking_longitude" value="${parkingDTO.parking_longitude}" readonly>
 </div>
 
 <div>
-<label for="parking_operation">운영시간 : </label>
-<input type="text" name="parking_operation" id="parking_operation" value="${parkingDTO.parking_operation}">
+<label for="parking_operation">운영시간 : </label> 
+<input type="text" name="parking_operation" id="parking_operation" value="${parkingDTO.parking_operation}"> 
 <br>[참고] ex. 09:00~18:00
 </div>
 
 <div>
-<label for="parking_type">주차장 종류 : </label>
-<input type="radio" name="parking_type" id="parking_type" value="public" <c:if test="${parkingDTO.parking_type eq 'public'}">checked</c:if>>공영
-<input type="radio" name="parking_type" id="parking_type" value="private" <c:if test="${parkingDTO.parking_type eq 'private'}">checked</c:if>>민영
+<label for="parking_type">주차장 종류 : </label> 
+<input type="radio" name="parking_type" id="parking_type" value="public"
+<c:if test="${parkingDTO.parking_type eq 'public'}">checked</c:if>>공영
+<input type="radio" name="parking_type" id="parking_type" value="private"
+<c:if test="${parkingDTO.parking_type eq 'private'}">checked</c:if>>민영
 </div>
 
 <div>
-<label for="parking_total_spaces">주차 공간 : </label>
+<label for="parking_total_spaces">주차 공간 : </label> 
 <input type="text" name="parking_total_spaces" id="parking_total_spaces" value="${parkingDTO.parking_total_spaces}">석
 </div>
 
 <div>
-<label for="parking_electriccar_check">전기차 충전 가능 여부 : </label>
+<label for="parking_electriccar_check">전기차 충전 가능 여부 : </label> 
 <input type="radio" name="parking_electriccar_check" id="parking_electriccar_check" value="Y"
 <c:if test="${parkingDTO.parking_electriccar_check eq 'Y'}">checked</c:if>>가능
 <input type="radio" name="parking_electriccar_check" id="parking_electriccar_check" value="N"
@@ -96,13 +79,13 @@
 </div>
 
 <div>
-<label for="parking_electriccar_spaces">전기차 충전 가능 공간 : </label>
+<label for="parking_electriccar_spaces">전기차 충전 가능 공간 : </label> 
 <input type="text" name="parking_electriccar_spaces" id="parking_electriccar_spaces" value="${parkingDTO.parking_electriccar_spaces}">석
 </div>
 
 <div>
-<label for="parking_pay_type">적용 가능 할인권 : </label>
-<input type="radio" name="parking_pay_type" id="parking_pay_type" value="R" 
+<label for="parking_pay_type">적용 가능 할인권 : </label> 
+<input type="radio" name="parking_pay_type" id="parking_pay_type" value="R"
 <c:if test="${parkingDTO.parking_pay_type eq 'R'}">checked</c:if>>정기권
 <input type="radio" name="parking_pay_type" id="parking_pay_type" value="T"
 <c:if test="${parkingDTO.parking_pay_type eq 'T'}">checked</c:if>>시간권
@@ -111,38 +94,162 @@
 </div>
 
 <div>
-<label for="parking_base_fee">1시간 당 기본요금 : </label>
-<input type="text" name="parking_base_fee" id="parking_base_fee" value="${parkingDTO.parking_base_fee}">원
+<label for="parking_base_fee">1시간 당 기본요금 : </label> 
+<input type="text" name="parking_base_fee" id="parking_base_fee" value="${parkingDTO.parking_base_fee}">원 
 <br>[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요. (ex. 10,000 or 15,000 등)
 </div>
 
 <div>
-<label for="parking_hourly_rate">10분 over time 시 추가 요금 : </label>
-<input type="text" name="parking_hourly_rate" id="parking_hourly_rate" value="${parkingDTO.parking_hourly_rate}">원
+<label for="parking_hourly_rate">10분 over time 시 추가 요금 : </label> 
+<input type="text" name="parking_hourly_rate" id="parking_hourly_rate" value="${parkingDTO.parking_hourly_rate}">원 
 <br>[참고] 금액은 숫자 및 콤마로 구분하여 기재해주세요. (ex. 10,000 or 15,000 등)
+</div>
+			
+<div>
+
+<div>
+<label for="parking_photo1">주차장 이미지 1 :</label> &nbsp;
+<c:if test="${not empty parkingDTO.parking_photo1_path}">
+<img alt="주차장 사진 1" src="${pageContext.request.contextPath}/parkingThumbnail?member_code=${parkingDTO.member_code}&filename=${parkingDTO.parking_photo1_name}"
+onclick="showImage('${pageContext.request.contextPath}/resources/Parking/${parkingDTO.member_code}/${parkingDTO.parking_photo1_name}')"> &nbsp;
+<input type="checkbox" name="delete_photo1" value="1" onclick="toggleFileInput(this, 'parking_photo1')"> 삭제
+</c:if>
+&nbsp;
+<input type="file" name="parking_photo1" id="parking_photo1" accept="image/*">
+<input type="hidden" name="parking_photo1_name" id="parking_photo1_name" value="${parkingDTO.parking_photo1_name}">
+<input type="hidden" name="parking_photo1_path" id="parking_photo1_path" value="${parkingDTO.parking_photo1_path}">
+</div>
+
+<br>
+
+<div>
+<label for="parking_photo2">주차장 이미지 2 :</label> &nbsp;
+<c:if test="${not empty parkingDTO.parking_photo2_path}">
+<img alt="주차장 사진 2" src="${pageContext.request.contextPath}/parkingThumbnail?member_code=${parkingDTO.member_code}&filename=${parkingDTO.parking_photo2_name}"
+onclick="showImage('${pageContext.request.contextPath}/resources/Parking/${parkingDTO.member_code}/${parkingDTO.parking_photo2_name}')"> &nbsp;
+<input type="checkbox" name="delete_photo2" value="1" onclick="toggleFileInput(this, 'parking_photo2')"> 삭제
+</c:if>
+&nbsp;
+<input type="file" name="parking_photo2" id="parking_photo2" accept="image/*">
+<input type="hidden" name="parking_photo2_name" id="parking_photo2_name" value="${parkingDTO.parking_photo2_name}">
+<input type="hidden" name="parking_photo2_path" id="parking_photo2_path" value="${parkingDTO.parking_photo2_path}">
+</div>
+
+<br>
+
+<div>
+<label for="parking_photo3">주차장 이미지 3 :</label> &nbsp;
+<c:if test="${not empty parkingDTO.parking_photo3_path}">
+<img alt="주차장 사진 3" src="${pageContext.request.contextPath}/parkingThumbnail?member_code=${parkingDTO.member_code}&filename=${parkingDTO.parking_photo3_name}"
+onclick="showImage('${pageContext.request.contextPath}/resources/Parking/${parkingDTO.member_code}/${parkingDTO.parking_photo3_name}')"> &nbsp;
+<input type="checkbox" name="delete_photo3" value="1" onclick="toggleFileInput(this, 'parking_photo3')"> 삭제
+</c:if>
+&nbsp;
+<input type="file" name="parking_photo3" id="parking_photo3" accept="image/*">
+<input type="hidden" name="parking_photo3_name" id="parking_photo3_name" value="${parkingDTO.parking_photo3_name}">
+<input type="hidden" name="parking_photo3_path" id="parking_photo3_path" value="${parkingDTO.parking_photo3_path}">
+</div>
+
+<br>
+
+<div>
+<label for="parking_photo4">주차장 이미지 4 :</label> &nbsp;
+<c:if test="${not empty parkingDTO.parking_photo4_path}">
+<img alt="주차장 사진 4" src="${pageContext.request.contextPath}/parkingThumbnail?member_code=${parkingDTO.member_code}&filename=${parkingDTO.parking_photo4_name}"
+onclick="showImage('${pageContext.request.contextPath}/resources/Parking/${parkingDTO.member_code}/${parkingDTO.parking_photo4_name}')"> &nbsp;
+<input type="checkbox" name="delete_photo4" value="1" onclick="toggleFileInput(this, 'parking_photo4')"> 삭제
+</c:if>
+&nbsp;
+<input type="file" name="parking_photo4" id="parking_photo4" accept="image/*">
+<input type="hidden" name="parking_photo4_name" id="parking_photo4_name" value="${parkingDTO.parking_photo4_name}">
+<input type="hidden" name="parking_photo4_path" id="parking_photo4_path" value="${parkingDTO.parking_photo4_path}">
+</div>
+
+<br>
+
+<div>
+<label for="parking_photo5">주차장 이미지 5 :</label> &nbsp;
+<c:if test="${not empty parkingDTO.parking_photo5_path}">
+<img alt="주차장 사진 5" src="${pageContext.request.contextPath}/parkingThumbnail?member_code=${parkingDTO.member_code}&filename=${parkingDTO.parking_photo5_name}"
+onclick="showImage('${pageContext.request.contextPath}/resources/Parking/${parkingDTO.member_code}/${parkingDTO.parking_photo5_name}')"> &nbsp;
+<input type="checkbox" name="delete_photo5" value="1" onclick="toggleFileInput(this, 'parking_photo5')"> 삭제
+</c:if>
+&nbsp;
+<input type="file" name="parking_photo5" id="parking_photo5" accept="image/*">
+<input type="hidden" name="parking_photo5_name" id="parking_photo5_name" value="${parkingDTO.parking_photo5_name}">
+<input type="hidden" name="parking_photo5_path" id="parking_photo5_path" value="${parkingDTO.parking_photo5_path}">
+</div>
+</div>
+
+<!-- 모달 -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="imageModalLabel">이미지</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<img id="modalImage" src="" alt="큰 이미지" class="img-fluid">
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    function showImage(imageSrc) {
+        $('#modalImage').attr('src', imageSrc);
+        $('#imageModal').modal('show');
+    }
+
+    function toggleFileInput(checkbox, fileInputId) {
+        const fileInput = document.getElementById(fileInputId);
+        if (checkbox.checked) {
+            fileInput.disabled = true;
+            fileInput.value = "";
+        } else {
+            fileInput.disabled = false;
+        }
+    }
+</script>
+			
+<div>
+<label for="parking_document_name">
+<input type="hidden" name="parking_document_name" id="parking_document_name" value="${parkingDTO.parking_document_name}">
+</label>
+</div>
+			
+<div>
+<label for="parking_document_path">
+<input type="hidden" name="Parking_document_path" id="parking_document_path" value="${parkingDTO.parking_document_path}">
+</label>
 </div>
 
 <div>
-<label for="parking_approval"></label>
+<label for="parking_approval"></label> 
 <input type="hidden" name="parking_approval" id="parking_approval" value="${parkingDTO.parking_approval}">
 </div>
 
 <div>
-<label for="parking_registration"></label>
+<label for="parking_registration"></label> 
 <input type="hidden" name="parking_registration" id="parking_registration" value="${parkingDTO.parking_registration}">
 </div>
 
 <!-- 현재 날짜 추출 -->
 <c:set var="today" value="<%=new java.util.Date()%>" />
-<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set> 
+<c:set var="date">
+<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" />
+</c:set>
 
 <div>
-<label for="parking_edit"></label>
+<label for="parking_edit"></label> 
 <input type="hidden" name="parking_edit" id="parking_edit" value="${date}">
 </div>
 
 <div>
-<label for="member_code"></label>
+<label for="member_code"></label> 
 <input type="hidden" name="member_code" id="member_code" value="${parkingDTO.member_code}">
 </div>
 

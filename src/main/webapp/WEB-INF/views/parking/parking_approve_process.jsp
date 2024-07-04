@@ -84,6 +84,66 @@
 </div>
 
 <div>
+<label for="parking_photo1_name"></label>
+<input type="hidden" name="parking_photo1_name" id="parking_photo1_name" value="${parkingDTO.parking_photo1_name}">
+</div>
+
+<div>
+<label for="parking_photo1_path"></label>
+<input type="hidden" name="parking_photo1_path" id="parking_photo1_path" value="${parkingDTO.parking_photo1_path}">
+</div>
+
+<div>
+<label for="parking_photo2_name"></label>
+<input type="hidden" name="parking_photo2_name" id="parking_photo2_name" value="${parkingDTO.parking_photo2_name}">
+</div>
+
+<div>
+<label for="parking_photo2_path"></label>
+<input type="hidden" name="parking_photo2_path" id="parking_photo2_path" value="${parkingDTO.parking_photo2_path}">
+</div>
+
+<div>
+<label for="parking_photo3_name"></label>
+<input type="hidden" name="parking_photo3_name" id="parking_photo3_name" value="${parkingDTO.parking_photo3_name}">
+</div>
+
+<div>
+<label for="parking_photo3_path"></label>
+<input type="hidden" name="parking_photo3_path" id="parking_photo3_path" value="${parkingDTO.parking_photo3_path}">
+</div>
+
+<div>
+<label for="parking_photo4_name"></label>
+<input type="hidden" name="parking_photo4_name" id="parking_photo4_name" value="${parkingDTO.parking_photo4_name}">
+</div>
+
+<div>
+<label for="parking_photo4_path"></label>
+<input type="hidden" name="parking_photo4_path" id="parking_photo4_path" value="${parkingDTO.parking_photo4_path}">
+</div>
+
+<div>
+<label for="parking_photo5_name"></label>
+<input type="hidden" name="parking_photo5_name" id="parking_photo5_name" value="${parkingDTO.parking_photo5_name}">
+</div>
+
+<div>
+<label for="parking_photo5_path"></label>
+<input type="hidden" name="parking_photo5_path" id="parking_photo5_path" value="${parkingDTO.parking_photo5_path}">
+</div>
+
+<div>
+<label for="parking_document_name"></label>
+<input type="hidden" name="parking_document_name" id="parking_document_name" value="${parkingDTO.parking_document_name}">
+</div>
+
+<div>
+<label for="parking_document_path"></label>
+<input type="hidden" name="parking_document_path" id="parking_document_path" value="${parkingDTO.parking_document_path}">
+</div>
+
+<div>
 <label for="parking_approval">주차장 승인 여부 : </label>
 <input type="radio" name="parking_approval" id="parking_approval" value="AP" 
 <c:if test="${parkingDTO.parking_approval eq 'AP'}">checked</c:if>>승인

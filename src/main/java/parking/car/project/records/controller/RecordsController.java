@@ -33,19 +33,26 @@ public class RecordsController {
 	@Inject
 	private final MemberService memberService;
 	
-	// RestController 사용하는 view 페이지로 이동
+	// RestController 사용하는 view 페이지로 이동 user
 	@GetMapping("/RecordsRestUser")
 	public String RecordsRestUser() {
 		logger.info("RecordsRestUser 진입");
-		return "./records/records_rest_user"; // 뷰 페이지 이름은 나중에 정하자!!
+		return "./records/records_rest_user"; 
 	}
 	
-	// RestController 사용하는 view 페이지로 이동
-		@GetMapping("/RecordsRestManager")
-		public String RecordsRestManager() {
-			logger.info("RecordsRestManager 진입");
-			return "./records/records_rest_manager"; // 뷰 페이지 이름은 나중에 정하자!!
-		}
+	// RestController 사용하는 view 페이지로 이동 manager
+	@GetMapping("/RecordsRestManager")
+	public String RecordsRestManager() {
+		logger.info("RecordsRestManager 진입");
+		return "./records/records_rest_manager"; 
+	}
+		
+	// RestController 사용하는 view 페이지로 이동 admin
+	@GetMapping("/RecordsRestAdmin")
+	public String RecordsRestAdmin() {
+		logger.info("RecordsRestManager 진입");
+		return "./records/records_rest_admin"; 
+	}
 	
 	@GetMapping("/RecordsSelectUser")
 	public String recordsSelectUser(Model model, @RequestParam("member_code") Integer member_code) {
