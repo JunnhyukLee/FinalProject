@@ -49,7 +49,7 @@ public class CommentController {
         List<Comment> comments = commentService.findCommentsByMemberCode(member_code);
         model.addAttribute("list", comments);
         model.addAttribute("member_code", member_code); 
-        return "./comment/comment_member_view";
+        return "comment/comment_member_view";
     }
     
     @GetMapping("/CommentSelectParking")
@@ -61,20 +61,20 @@ public class CommentController {
         logger.info("Comments found: {}", comments);
         model.addAttribute("list", comments);
         model.addAttribute("parking_code", parking_code); // JSP에서 사용하기 위해 추가
-        return "./comment/comment_parking_view";
+        return "comment/comment_parking_view";
     }
     
     @GetMapping("/CommentSelectDetail")
     public String detail(Model model, @RequestParam("comment_code") Integer comment_code) {
         Optional<Comment> comment = commentService.findCommentById(comment_code);
         comment.ifPresent(value -> model.addAttribute("commentDTO", value));
-        return "./comment/comment_select_detail_view";
+        return "comment/comment_select_detail_view";
     }
     
 //    @GetMapping("/CommentInsert")
 //    public String insertForm(Model model, @RequestParam("parking_code") Integer parking_code) {
 //    	model.addAttribute("parking_code", parking_code);
-//        return "./comment/comment_insert";
+//        return "comment/comment_insert";
 //    }
 
     @PostMapping("/CommentInsert")
@@ -89,12 +89,12 @@ public class CommentController {
         comment.setParking_code(parking_code);
         comment.setMember_code(member_code);
         commentService.saveComment(comment);
-        return "./comment/comment_insert_view";
+        return "comment/comment_insert_view";
     }
     
     @GetMapping("/CommentInsert")
     public String insertForm() {
-        return "./comment/comment_insert";
+        return "comment/comment_insert";
     }
 //
 //    @PostMapping("/CommentInsert")
@@ -106,14 +106,14 @@ public class CommentController {
 //        comment.setMember_code(commentDTO.getMember_code());
 //        commentService.saveComment(comment);
 //
-//        return "./comment/comment_insert_view";
+//        return "comment/comment_insert_view";
 //    }
 
     @GetMapping("/CommentUpdate")
     public String updateForm(Model model, @RequestParam("comment_code") Integer comment_code) {
         Optional<Comment> comment = commentService.findCommentById(comment_code);
         comment.ifPresent(value -> model.addAttribute("commentDTO", value));
-        return "./comment/comment_update";
+        return "comment/comment_update";
     }
 
     @PostMapping("/CommentUpdate")
@@ -127,12 +127,12 @@ public class CommentController {
         comment.setParking_code(commentDTO.getParking_code());
         comment.setMember_code(member_code);
         commentService.saveComment(comment);
-        return "./comment/comment_update_view";
+        return "comment/comment_update_view";
     }
 
     @GetMapping("/CommentDelete")
     public String deleteForm() {
-        return "./comment/comment_delete";
+        return "comment/comment_delete";
     }
 
     @PostMapping("/CommentDelete")
