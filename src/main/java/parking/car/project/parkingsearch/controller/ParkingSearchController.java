@@ -36,9 +36,9 @@ public class ParkingSearchController {
 
     @GetMapping("/getParkingComments")
     @ResponseBody
-    public Map<String, Object> getParkingComments(@RequestParam("parking_code") int parkingCode) {
-        Parking parking = parkingSearchService.getParkingByCode(parkingCode);
-        List<Comment> comments = commentService.findCommentsByParkingCode(parkingCode);
+    public Map<String, Object> getParkingComments(@RequestParam("parking_code") int parking_code) {
+        Parking parking = parkingSearchService.getParkingByCode(parking_code);
+        List<Comment> comments = commentService.findCommentsByParkingCode(parking_code);
 
         Map<String, Object> response = new HashMap<>();
         response.put("name", parking.getParking_name());

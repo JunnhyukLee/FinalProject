@@ -12,4 +12,5 @@ public class ParkingSearchDTO {
 	private String parking_base_fee;
 	private String parking_hourly_rate;
 	private String parking_type;
+	private String parking_photo_path;
 }

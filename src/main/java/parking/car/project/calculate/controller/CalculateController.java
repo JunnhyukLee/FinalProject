@@ -51,7 +51,9 @@ public class CalculateController {
                 if (elapsedTimeMinutes <= 60) {
                     parkingFee = Double.parseDouble(calculateDTO.getParking_base_fee());
                 } else {
-                    parkingFee = Double.parseDouble(calculateDTO.getParking_hourly_rate()) * Math.ceil((double) elapsedTimeMinutes / 60);
+                	double baseFee = Double.parseDouble(calculateDTO.getParking_base_fee());
+                    double hourlyRate = Double.parseDouble(calculateDTO.getParking_hourly_rate());
+                    parkingFee = baseFee + (hourlyRate * Math.ceil((double) elapsedTimeMinutes / 60));
                 }
 
                 calculateDTO.setCalculate_amount(String.valueOf(parkingFee));

@@ -93,6 +93,8 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.5;
     font-size: 14px;
+    width: 400px; /* 인포윈도우 너비 증가 */
+    height: auto; /* 높이를 자동으로 설정 */
 }
 
 .infowindow-content strong {

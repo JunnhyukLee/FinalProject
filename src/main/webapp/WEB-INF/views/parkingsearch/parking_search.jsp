@@ -5,6 +5,9 @@
 <head>
     <title>주차장 찾기</title>
     <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script type="text/javascript">
+        var contextPath = '<%= request.getContextPath() %>';
+    </script>
 </head>
 <body>
     <div class="search-container">
@@ -90,6 +93,7 @@
                                         '<div class="fee">기본 요금: ' + response.base_fee + '원<br>' +
                                         '시간당 요금: ' + response.hourly_fee + '원<br>' +
                                         '유형: ' + response.type + '</div>' +
+                                        '<img src="' + contextPath + response.photo_path + '" alt="주차장 이미지" style="width:400px;height:auto;"><br>' +
                                         '<h3>후기</h3><table>';
 
                     if (response.comments && response.comments.length > 0) {
@@ -97,9 +101,9 @@
                             var comment = response.comments[i];
                             var formattedDate = new Date(comment.comment_date).toISOString().slice(0, 19).replace('T', ' ');
                             contentString += '<tr>' +
-                                                '<td>' + comment.comment_content + '</td>' +
-                                                '<td>' + formattedDate + '</td>' +
-                                            '</tr>';
+                                             '<td>' + comment.comment_content + '</td>' +
+                                             '<td>' + formattedDate + '</td>' +
+                                             '</tr>';
                         }
                     } else {
                         contentString += '<tr><td colspan="2">등록된 후기가 없습니다.</td></tr>';
