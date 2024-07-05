@@ -27,6 +27,6 @@ public class TermController {
         List<TermDTO> terms = termService.termSelectAll();
         model.addAttribute("list", terms);
         logger.info("list", model);
-        return "./term/term_select_view";
+        return "term/term_select_view";
     }
 }
