@@ -50,7 +50,7 @@ public class NoticeController {
         model.addAttribute("currentPage", page);
         model.addAttribute("searchQuery", searchQuery);
         logger.info("list", model);
-        return "./notice/notice_select_view";
+        return "notice/notice_select_view";
     }
     
     @GetMapping("/NoticeSelectEvent")
@@ -74,7 +74,7 @@ public class NoticeController {
         model.addAttribute("currentPage", page);
         model.addAttribute("searchQuery", searchQuery);
         logger.info("list", model);
-        return "./notice/notice_select_event_view";
+        return "notice/notice_select_event_view";
     }
 
     @GetMapping("/NoticeSelectDetail")
@@ -85,7 +85,7 @@ public class NoticeController {
         String member_rating = "admin";
     	//String memberRating = (String) request.getSession().getAttribute("member_rating");
         model.addAttribute("member_rating", member_rating);
-        return "./notice/notice_select_detail_view";
+        return "notice/notice_select_detail_view";
     }
 
     @GetMapping("/NoticeSelectEventDetail")
@@ -96,12 +96,12 @@ public class NoticeController {
         String member_rating = "admin";
     	//String memberRating = (String) request.getSession().getAttribute("member_rating");
         model.addAttribute("member_rating", member_rating);
-        return "./notice/notice_select_event_detail_view";
+        return "notice/notice_select_event_detail_view";
     }
 
     @GetMapping("/NoticeInsert")
     public String insertForm() {
-        return "./notice/notice_insert";
+        return "notice/notice_insert";
     }
 
     @PostMapping("/NoticeInsert")
@@ -127,7 +127,7 @@ public class NoticeController {
     public String updateForm(Model model, @RequestParam("notice_code") Integer notice_code) {
         Optional<Notice> notice = noticeService.findNoticeById(notice_code);
         notice.ifPresent(value -> model.addAttribute("noticeDTO", value));
-        return "./notice/notice_update";
+        return "notice/notice_update";
     }
 
     @PostMapping("/NoticeUpdate")
@@ -143,14 +143,14 @@ public class NoticeController {
             notice.setNotice_view(existingNoticeOpt.get().getNotice_view());
         }
         noticeService.saveNotice(notice);
-        return "./notice/notice_update_view";
+        return "notice/notice_update_view";
     }
 
     @GetMapping("/NoticeUpdateEvent")
     public String updateEventForm(Model model, @RequestParam("notice_code") Integer notice_code) {
         Optional<Notice> notice = noticeService.findNoticeById(notice_code);
         notice.ifPresent(value -> model.addAttribute("noticeDTO", value));
-        return "./notice/notice_update_event";
+        return "notice/notice_update_event";
     }
 
     @PostMapping("/NoticeUpdateEvent")
@@ -166,12 +166,12 @@ public class NoticeController {
             notice.setNotice_view(existingNoticeOpt.get().getNotice_view());
         }
         noticeService.saveNotice(notice);
-        return "./notice/notice_update_event_view";
+        return "notice/notice_update_event_view";
     }
 
     @GetMapping("/NoticeDelete")
     public String deleteForm() {
-        return "./notice/notice_delete";
+        return "notice/notice_delete";
     }
 
     @PostMapping("/NoticeDelete")
@@ -190,12 +190,12 @@ public class NoticeController {
 
     @GetMapping("/NoticeDeleteEvent")
     public String deleteEventForm() {
-        return "./notice/notice_delete";
+        return "notice/notice_delete";
     }
 
     @PostMapping("/NoticeDeleteEvent")
     public String deleteEvent(@RequestParam("notice_code") Integer notice_code) {
         noticeService.deleteNotice(notice_code);
-        return "./notice/notice_delete_view";
+        return "notice/notice_delete_view";
     }
 }
