@@ -38,7 +38,7 @@ public class FaqController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", faqPage.getTotalPages());
         logger.info("list", model);
-        return "./faq/faq_select_view";
+        return "faq/faq_select_view";
     }
     
     @GetMapping("/FaqSearch")
@@ -62,7 +62,7 @@ public class FaqController {
         
         logger.info("Search results: {}", searchResults);
         
-        return "./faq/faq_select_view";
+        return "faq/faq_select_view";
     }
 
 
@@ -77,12 +77,12 @@ public class FaqController {
     	faqService.incrementFaqView(faq_code); 
         Optional<Faq> faq = faqService.findFaqById(faq_code);
         faq.ifPresent(value -> model.addAttribute("faqDTO", value));
-        return "./faq/faq_select_detail_view";
+        return "faq/faq_select_detail_view";
     }
 
     @GetMapping("/FaqInsert")
     public String insertForm() {
-        return "./faq/faq_insert";
+        return "faq/faq_insert";
     }
 
     @PostMapping("/FaqInsert")
@@ -98,14 +98,14 @@ public class FaqController {
         faq.setMember_name(member_name); 
         faq.setMember_code(member_code);
         faqService.saveFaq(faq);
-        return "./faq/faq_insert_view";
+        return "faq/faq_insert_view";
     }
 
     @GetMapping("/FaqUpdate")
     public String updateForm(Model model, @RequestParam("faq_code") Integer faq_code) {
         Optional<Faq> faq = faqService.findFaqById(faq_code);
         faq.ifPresent(value -> model.addAttribute("faqDTO", value));
-        return "./faq/faq_update";
+        return "faq/faq_update";
     }
 
     @PostMapping("/FaqUpdate")
@@ -128,7 +128,7 @@ public class FaqController {
             }
             faqService.saveFaq(faq);
         }
-        return "./faq/faq_update_view";
+        return "faq/faq_update_view";
     }
 
     @PostMapping("/FaqDelete")
@@ -149,7 +149,7 @@ public class FaqController {
     public String updateAnswerForm(Model model, @RequestParam("faq_code") Integer faq_code) {
         Optional<Faq> faqOptional = faqService.findFaqById(faq_code);
         faqOptional.ifPresent(faq -> model.addAttribute("faqDTO", faq));
-        return "./faq/faq_answer_update";
+        return "faq/faq_answer_update";
     }
 
     @PostMapping("/FaqAnswerUpdate")
@@ -161,7 +161,7 @@ public class FaqController {
             faq.setFaq_answer_date(new Date());
             faqService.saveFaq(faq);
         }
-        return "./faq/faq_answer_update_view";
+        return "faq/faq_answer_update_view";
         //return "redirect:/FaqSelectDetail?faq_code=" + faqDTO.getFaq_code();
     }
 
@@ -174,7 +174,7 @@ public class FaqController {
             faq.setFaq_answer_date(null);
             faqService.saveFaq(faq);
         }
-        return "./faq/faq_answer_delete_view";
+        return "faq/faq_answer_delete_view";
         //return "redirect:/FaqSelectDetail?faq_code=" + faq_code;
     }
 } 
