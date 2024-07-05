@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,63 +13,61 @@
 <script src="./js/jquery.validate.min.js" type="text/javascript"></script>
 </head>
 <body>
-<header id="main-header" class="py-2 btn-dark text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>리뷰 작성</h1>
+    <header id="main-header" class="py-2 btn-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>리뷰 작성</h1>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-<section class="py-4 mb-4 bg-light">
-</section>
-<section id="comment-write">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>댓글 작성</h5>
-                    </div>
-                    <div class="card-body">
-                        <form action="./CommentInsert" method="post" id="comment_form">
-                        <!-- <input type="hidden" name="parking_code" value="${parking_code}" /> -->
-                            <fieldset>
-                                <div class="form-group row">
-                                    <label for="comment_content" class="ml-sm-3 col-form-label">내용</label>
-                                    <div class="ml-sm-3">
-                                        <textarea name="comment_content" id="comment_content" class="form-control form-control-sm" rows="5"></textarea>
+    </header>
+    <section class="py-4 mb-4 bg-light"></section>
+    <section id="comment-write">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>댓글 작성</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="./CommentInsert" method="post" id="comment_form">
+                                <sec:csrfInput />
+                                <!-- <input type="hidden" name="parking_code" value="${parking_code}" /> -->
+                                <fieldset>
+                                    <div class="form-group row">
+                                        <label for="comment_content" class="ml-sm-3 col-form-label">내용</label>
+                                        <div class="ml-sm-3">
+                                            <textarea name="comment_content" id="comment_content" class="form-control form-control-sm" rows="5"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-secondary" onclick="submitForm()">등록</button>
-                                    <button type="reset" class="btn btn-secondary">취소</button>
-                                </div>
-                            </fieldset>
-                        </form>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary" onclick="submitForm()">등록</button>
+                                        <button type="reset" class="btn btn-secondary">취소</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<a href="./CommentSelect" class="btn btn-primary btn-block"> 댓글 목록으로 돌아가기</a>
+    </section>
+    <a href="./CommentSelect" class="btn btn-primary btn-block"> 댓글 목록으로 돌아가기</a>
 
-<script>
-    function submitForm() {
-        var content = document.getElementById('comment_content').value.trim();
+    <script>
+        function submitForm() {
+            var content = document.getElementById('comment_content').value.trim();
 
-        if (content === '') {
-            alert('내용을 입력해주세요.');
-            return;
+            if (content === '') {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+
+            document.getElementById('comment_form').submit();
         }
-
-        // 추가적인 유효성 검사 등이 필요하다면 여기에 추가할 수 있습니다.
-
-        document.getElementById('comment_form').submit();
-    }
-</script>
+    </script>
 
 </body>
 </html>
