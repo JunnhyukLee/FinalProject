@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,7 @@
                     </div>
                     <div class="card-body">
                         <form action="./FaqAnswerUpdate" method="post" id="faq_form">
+                            <sec:csrfInput />
                             <fieldset>
                                 <div class="form-group row">
                                     <label for="faq_answer" class="ml-sm-3 col-form-label">댓글 내용</label>
@@ -41,7 +43,6 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="faq_answer_code" value="${faqDTO.faq_answer_code}">
-                                <!-- 추가된 부분: 게시글 고유 식별자(hidden input) -->
                                 <input type="hidden" name="faq_code" value="${faqDTO.faq_code}">
                                 <div class="form-group">
                                     <button type="button" class="btn btn-secondary" onclick="submitForm()">작성</button>
@@ -55,7 +56,7 @@
         </div>
     </div>
 </section>
-<a href="./FaqSelect" class="btn btn-primary btn-block"> 게시판홈으로 돌아가기</a>
+<a href="./FaqSelect" class="btn btn-primary btn-block"> 게시판 홈으로 돌아가기</a>
 
 <script>
     function submitForm() {
@@ -77,6 +78,3 @@
 
 </body>
 </html>
-
-
-
