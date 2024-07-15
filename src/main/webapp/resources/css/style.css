@@ -1,0 +1,160 @@
+/* 기본 스타일 초기화 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* 검색 컨테이너 스타일링 */
+.search-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    text-align: center;
+}
+
+#searchInput {
+    width: 300px; /* 키워드 필드 크기 증가 */
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#searchInput:focus {
+    outline: none;
+}
+
+#searchBtn {
+    width: 80px; /* 버튼 크기 증가 */
+    height: 40px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px; /* 버튼과 검색창 사이에 간격 추가 */
+}
+
+#searchBtn:hover {
+    background-color: #0056b3;
+}
+
+/* 지도 스타일링 */
+#map {
+    height: calc(100vh - 40px); /* 화면의 높이에서 40px를 뺀 크기로 설정 */
+    width: calc(100% - 200px); /* 화면의 너비에서 사이드바의 너비를 뺀 크기로 설정 */
+    float: right; /* 지도를 오른쪽으로 정렬합니다. */
+}
+
+/* 사이드바 스타일링 */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    overflow-y: scroll; /* 내용이 넘칠 경우 스크롤 표시 */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* 사이드바에 그림자 추가 */
+}
+
+#markerList {
+    list-style: none; /* 마커 리스트의 기본 목록 스타일 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+#markerList li {
+    cursor: pointer; /* 항목에 마우스를 올리면 커서를 포인터로 변경 */
+    padding: 10px;
+    margin-bottom: 5px; /* 각 항목 사이의 간격 조정 */
+    border-bottom: 1px solid #ddd; /* 항목 사이에 구분선 추가 */
+}
+
+#markerList li:hover {
+    background-color: #f0f0f0; /* 항목에 마우스를 올리면 배경색 변경 */
+}
+
+/* 사이드바 제목 스타일링 */
+#sidebar h2 {
+    margin-bottom: 10px; /* 마커 리스트 제목과 항목들 사이의 간격 조정 */
+    font-size: 18px; /* 마커 리스트 제목의 폰트 크기 설정 */
+    color: #007bff; /* 마커 리스트 제목의 텍스트 색상 설정 */
+}
+
+/* 인포윈도우 스타일링 */
+.infowindow-content {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    font-size: 14px;
+    padding: 10px; /* 전체 컨텐츠 패딩 추가 */
+}
+
+.infowindow-content strong {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px; /* 아래 요소와 간격 추가 */
+}
+
+.infowindow-content .address,
+.infowindow-content .fee {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #666;
+    display: block;
+}
+
+.infowindow-content .fee {
+    margin-top: 10px; /* 주소와 요금 정보 사이의 간격 추가 */
+}
+
+.infowindow-content .operation,
+.infowindow-content .spaces,
+.infowindow-content .electriccar_check,
+.infowindow-content .electriccar_spaces {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #666;
+    display: block;
+}
+
+.infowindow-content h3 {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff;
+    display: block;
+}
+
+.infowindow-content table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.infowindow-content table td {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+}
+
+.infowindow-content button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.infowindow-content button:hover {
+    background-color: #0056b3;
+}

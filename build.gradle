@@ -1,0 +1,102 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id 'war'
+}
+
+group = 'parking.car'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+	// Spring Boot core starter
+	implementation 'org.springframework.boot:spring-boot-starter'
+	// Spring Boot Web starter for developing web applications
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Testing support
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Embedded Tomcat server with JSP support
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	// Servlet and JSP API
+	runtimeOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	runtimeOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
+	// JSTL support
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+	// Jakarta Annotations
+	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+	// Development tools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// Log4j2 for logging
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	// Lombok for reducing boilerplate code
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	// JDBC starter for database access
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	// Oracle JDBC driver
+	implementation 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
+	// HikariCP for high-performance JDBC connection pooling
+	implementation 'com.zaxxer:HikariCP:5.1.0'
+	// Logging for JDBC calls
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	// Dependency Injection API
+	implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+	// Spring Data JPA for database interaction
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// Hibernate ORM
+	implementation 'org.hibernate:hibernate-core:6.1.5.Final'
+	// Spring Security core starter and JSP taglibs for security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-taglibs'
+	// MyBatis starter for integration with MyBatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	// thumbnail
+	implementation 'net.coobird:thumbnailator:0.4.20'
+}
+
+configurations {
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+eclipse {
+	wtp {
+		facet {
+			facet name: 'jst.web', version: '6.0'
+			facet name: 'java', version: '17'
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+	options.compilerArgs << '-parameters'
+}
+
+sourceSets {
+	main {
+		resources {
+			exclude 'templates/**'
+			exclude 'static/**'
+		}
+	}
+}
